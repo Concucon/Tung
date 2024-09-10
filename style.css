@@ -1,0 +1,27 @@
+/* Định dạng cho hình trái tim và con vịt */
+.heart-duck-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.heart, .duck {
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+}
+
+.heart {
+    background-image: url('https://path-to-heart-image.png'); /* Thay đổi đường dẫn ảnh trái tim */
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.duck {
+    background-image: url('https://path-to-duck-image.png'); /* Thay đổi đường dẫn ảnh con vịt */
+    background-size: cover;
+    background-repeat: no-repeat;
+}

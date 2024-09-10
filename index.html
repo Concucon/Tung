@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three Forms</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Ngăn cuộn trang */
+        }
+        .form-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+            background-position: center;
+        }
+        img.background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .form-content {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF1493; /* Màu chữ hồng đậm */
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            border: 2px solid white; /* Viền màu trắng */
+            border-radius: 15px;
+            background: transparent; /* Nền trong suốt */
+            color: #FF1493; /* Màu chữ hồng đậm */
+            transition: background-color 0.3s, color 0.3s;
+        }
+        button:hover {
+            background-color: transparent;
+            color: #FF1493; /* Giữ màu chữ hồng đậm khi hover */
+        }
+        .btn-move {
+            position: absolute; /* Đảm bảo các nút luôn giữ vị trí tuyệt đối khi di chuyển */
+        }
+    </style>
+    <link rel="stylesheet" href="additional-styles.css">
+</head>
+<body>
+    <div id="form1" class="form-container">
+        <img src="https://i.imgur.com/FCMLxPm.jpeg" class="background" alt="Background Image Form 1">
+        <div class="form-content">
+            <p id="form1-text">em bé có iu anh hok</p>
+            <div class="button-container">
+                <button id="btn-yes" onclick="showForm2()">Có</button>
+                <button id="btn-no" class="btn-move" onclick="moveButton()">Không</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="form2" class="form-container" style="display: none;">
+        <img src="https://i.imgur.com/zKHno8t.jpeg" class="background" alt="Background Image Form 2">
+        <div class="form-content">
+            <p id="form2-text">em bé iu anh như nào thí</p>
+            <div class="button-container">
+                <button id="btn-less" class="btn-move" onclick="moveButton()">Ít</button>
+                <button id="btn-many" class="btn-move" onclick="moveButton()">Nhìu</button>
+                <button id="btn-much" onclick="showForm3()">Rất là nhìu</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="form3" class="form-container" style="display: none;">
+        <img src="https://i.imgur.com/wKrRVYO.jpeg" class="background" alt="Background Image Form 3">
+        <div class="form-content">
+            <p id="form3-text">Hì hì yêu em bé của anh quá trờiiii yêu em bé của anh số 1 thế giớiii lunnnnnnnnnnnnnnnnnnnnn❤️🐥</p>
+        </div>
+    </div>
+
+    <div class="heart-duck-container">
+        <div class="heart"></div>
+        <div class="duck"></div>
+    </div>
+
+    <script>
+        function showForm2() {
+            document.getElementById('form1').style.display = 'none';
+            document.getElementById('form2').style.display = 'flex';
+        }
+
+        function showForm3() {
+            document.getElementById('form2').style.display = 'none';
+            document.getElementById('form3').style.display = 'flex';
+        }
+
+        function moveButton() {
+            const buttons = document.querySelectorAll('.btn-move');
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+
+            buttons.forEach(button => {
+                let isOverlapping;
+                let newTop, newLeft;
+
+                do {
+                    isOverlapping = false;
+                    newTop = Math.random() * (containerHeight - button.offsetHeight);
+                    newLeft = Math.random() * (containerWidth - button.offsetWidth);
+
+                    // Kiểm tra xem nút có bị chồng lên nút khác không
+                    buttons.forEach(otherButton => {
+                        if (otherButton !== button) {
+                            const otherTop = otherButton.offsetTop;
+                            const otherLeft = otherButton.offsetLeft;
+                            const otherHeight = otherButton.offsetHeight;
+                            const otherWidth = otherButton.offsetWidth;
+
+                            if (
+                                newLeft < otherLeft + otherWidth &&
+                                newLeft + button.offsetWidth > otherLeft &&
+                                newTop < otherTop + otherHeight &&
+                                newTop + button.offsetHeight > otherTop
+                            ) {
+                                isOverlapping = true;
+                            }
+                        }
+                    });
+
+                    // Kiểm tra xem nút có bị chồng lên văn bản không
+                    const textElements = document.querySelectorAll('p');
+                    textElements.forEach(text => {
+                        const textRect = text.getBoundingClientRect();
+                        if (
+                            newLeft < textRect.left + textRect.width &&
+                            newLeft + button.offsetWidth > textRect.left &&
+                            newTop < textRect.top + textRect.height &&
+                            newTop + button.offsetHeight > textRect.top
+                        ) {
+                            isOverlapping = true;
+                        }
+                    });
+
+                } while (isOverlapping);
+
+                button.style.top = `${newTop}px`;
+                button.style.left = `${newLeft}px`;
+            });
+        }
+    </script>
+</body>
+</html>
